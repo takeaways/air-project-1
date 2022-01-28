@@ -22,8 +22,8 @@ npx tailwindcss init -p
 module.exports = {
   content: [
     // tailwind를 어디에 적용할 것인지 작성합니다.
-    './pages/**/*.tsx',
-    './components/**/*.{js,jsx,ts,tsx}',
+    "./pages/**/*.tsx",
+    "./components/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {},
