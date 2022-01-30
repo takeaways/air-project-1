@@ -83,5 +83,38 @@ pscale connect [project's name]
 .env
 
 ```
-DATABASE_URL="mysql://127.0.0.1:3306127.0.0.1:3306/project's name"
+DATABASE_URL="mysql://127.0.0.1:3306/project's name"
+```
+
+### 프리즈마 스크마 보내기 연결하기
+
+```zsh
+npx prisma db push
+```
+
+```prisma
+...
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"] //추가
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma" //추가
+}
+...
+```
+
+테이블 확인하기
+
+```zsh
+npx prisma studio
+```
+
+### prisma model로 typescript Type 만들기
+
+```zsh
+npx prisma generate
 ```
