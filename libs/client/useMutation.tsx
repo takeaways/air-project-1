@@ -8,7 +8,7 @@ interface UseMutationState<T> {
 type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
 export default function useMutation<T = any>(
-  url: string
+  url: string,
 ): UseMutationResult<T> {
   const [state, setSate] = useState<UseMutationState<T>>({
     loading: false,
@@ -27,7 +27,7 @@ export default function useMutation<T = any>(
       .then((response) => response.json().catch(() => {}))
       .then((data) => setSate((prev) => ({ ...prev, data, loading: false })))
       .catch((error) =>
-        setSate((prev) => ({ ...prev, error, loading: false }))
+        setSate((prev) => ({ ...prev, error, loading: false })),
       );
   }
   return [mutation, { ...state }];
