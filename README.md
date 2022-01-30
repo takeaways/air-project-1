@@ -86,7 +86,7 @@ pscale connect [project's name]
 DATABASE_URL="mysql://127.0.0.1:3306/project's name"
 ```
 
-### 프리즈마 스크마 보내기 연결하기
+### 프리즈마 스키마 보내기
 
 ```zsh
 npx prisma db push
