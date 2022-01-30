@@ -1,78 +1,111 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
-function cls(...classnames: string[]) {
-  return classnames.join(" ");
+import Button from "components/button";
+import Input from "components/input";
+
+import useMutation from "libs/client/useMutation";
+import { cls } from "libs/client/utils";
+
+interface EnterForm {
+  email?: string;
+  phone?: string;
+}
+
+interface TokenForm {
+  token: string;
+}
+
+interface MutationResult {
+  ok: boolean;
 }
 
 const Enter: NextPage = () => {
+  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
+
+  const { register, reset, handleSubmit } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  };
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  };
+
+  const onValid = (validFormData: EnterForm) => {
+    enter(validFormData);
+  };
+
   return (
     <div className="px-4 mt-16">
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
       <div className="mt-12">
-        <div className="flex flex-col items-center">
-          <h5 className="text-sm font-medium text-gray-500">Enter using:</h5>
-          <div className="grid w-full grid-cols-2 mt-8 border-b ">
-            <button
-              className={cls(
-                "pb-4 font-medium text-sm border-b-2",
-                method === "email"
-                  ? " border-orange-500 text-orange-400"
-                  : "border-transparent hover:text-gray-400 text-gray-500",
-              )}
-              onClick={onEmailClick}
-            >
-              Email
-            </button>
-            <button
-              className={cls(
-                "pb-4 font-medium text-sm border-b-2",
-                method === "phone"
-                  ? " border-orange-500 text-orange-400"
-                  : "border-transparent hover:text-gray-400 text-gray-500",
-              )}
-              onClick={onPhoneClick}
-            >
-              Phone
-            </button>
+        <>
+          <div className="flex flex-col items-center">
+            <h5 className="text-sm font-medium text-gray-500">Enter using:</h5>
+            <div className="grid w-full grid-cols-2 mt-8 border-b ">
+              <button
+                className={cls(
+                  "pb-4 font-medium text-sm border-b-2",
+                  method === "email"
+                    ? " border-orange-500 text-orange-400"
+                    : "border-transparent hover:text-gray-400 text-gray-500",
+                )}
+                onClick={onEmailClick}
+              >
+                Email
+              </button>
+              <button
+                className={cls(
+                  "pb-4 font-medium text-sm border-b-2",
+                  method === "phone"
+                    ? " border-orange-500 text-orange-400"
+                    : "border-transparent hover:text-gray-400 text-gray-500",
+                )}
+                onClick={onPhoneClick}
+              >
+                Phone
+              </button>
+            </div>
           </div>
-        </div>
-        <form className="flex flex-col mt-8">
-          <label htmlFor="input" className="text-sm font-medium text-gray-700">
-            {method === "email" ? "Email address" : null}
-            {method === "phone" ? "Phone number" : null}
-          </label>
-          <div className="mt-1">
+          <form
+            onSubmit={handleSubmit(onValid)}
+            className="flex flex-col mt-8 space-y-4"
+          >
             {method === "email" ? (
-              <input
-                id="input"
+              <Input
+                register={register("email", {
+                  required: true,
+                })}
+                name="email"
+                label="Email address"
                 type="email"
-                className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                 required
               />
             ) : null}
             {method === "phone" ? (
-              <div className="flex rounded-md shadow-sm">
-                <span className="flex items-center justify-center px-3 text-sm text-gray-500 border border-r-0 border-gray-300 select-none rounded-l-md bg-gray-50">
-                  +82
-                </span>
-                <input
-                  id="input"
-                  type="number"
-                  className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md rounded-l-none shadow-sm appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                  required
-                />
-              </div>
+              <Input
+                register={register("phone")}
+                name="phone"
+                label="Phone number"
+                type="tel"
+                kind="phone"
+                required
+              />
             ) : null}
-          </div>
-          <button className="px-4 py-2 mt-5 text-sm font-medium text-white bg-orange-500 border border-transparent rounded-md shadow-sm hover:bg-orange-600 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none ">
-            {method === "email" ? "Get login link" : null}
-            {method === "phone" ? "Get one-time password" : null}
-          </button>
-        </form>
+            {method === "email" ? (
+              <Button text={loading ? "Loading..." : "Get login link"} />
+            ) : null}
+            {method === "phone" ? (
+              <Button text={loading ? "Loading..." : "Get one-time password"} />
+            ) : null}
+          </form>
+        </>
         <div className="mt-8">
           <div className="relative">
             <div className="absolute w-full border-t border-gray-300" />
