@@ -10,7 +10,7 @@ module.exports = {
     "^components/(.*)$",
     "^hooks/(.*)$",
     "^types/(.*)$",
-    "^utils/(.*)$",
+    "^libs/(.*)$",
     "^@server/(.*)$",
     "^@ui/(.*)$",
     "^[./]",
