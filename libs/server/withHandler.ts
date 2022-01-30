@@ -1,26 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-export interface ResponseType {
-  ok: boolean;
-  [key: string]: any;
-}
-
-export default function withHandler(
-  method: "GET" | "POST" | "DELETE",
-  fn: (req: NextApiRequest, res: NextApiResponse) => void,
-) {
-  return async function (
-    req: NextApiRequest,
-    res: NextApiResponse,
-  ): Promise<any> {
+type Method = "GET" | "POST" | "DELETE";
+type Handler = (req: NextApiRequest, res: NextApiResponse) => void;
+export default function withHandler(method: Method, handler: Handler) {
+  return async function (req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== method) {
-      return res.status(405).end();
+      res.status(405).end();
+      return;
     }
     try {
-      await fn(req, res);
+      await handler(req, res);
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error });
+      return res.status(500).json({
+        error,
+      });
     }
   };
 }

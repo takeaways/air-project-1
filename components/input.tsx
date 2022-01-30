@@ -1,4 +1,4 @@
-import type { UseFormRegisterReturn } from "react-hook-form";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface InputProps {
   label: string;
