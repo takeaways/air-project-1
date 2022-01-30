@@ -10,7 +10,7 @@ declare module "iron-session" {
 
 const cookieOptions = {
   cookieName: "geonilairsession",
-  password: "testcoooooo_)(_)@(%_)(#%_93-0529-359-203-0239-09-0okiee",
+  password: "6~tqxGf)%Z_kyQejug:LMrSJJY9}LpP3fY!/*;Q!",
 };
 
 export function withApiSession(fn: any) {
