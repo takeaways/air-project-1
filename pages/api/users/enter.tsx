@@ -22,22 +22,22 @@ async function handler(
     return res.status(400).json({ ok: false });
   }
   const payload = Math.floor(100000 + Math.random() * 900000) + "";
-  const token = await client.token.create({
-    data: {
-      payload,
-      user: {
-        connectOrCreate: {
-          where: {
-            ...user,
-          },
-          create: {
-            name: "Anonymouse",
-            ...user,
-          },
-        },
-      },
-    },
-  });
+  // const token = await client.token.create({
+  //   data: {
+  //     payload,
+  //     user: {
+  //       connectOrCreate: {
+  //         where: {
+  //           ...user,
+  //         },
+  //         create: {
+  //           name: "Anonymouse",
+  //           ...user,
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
 
   if (phone) {
     // await twilioClient.messages.create({

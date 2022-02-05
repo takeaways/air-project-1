@@ -89,7 +89,7 @@ DATABASE_URL="mysql://127.0.0.1:3306/project's name"
 ### 프리즈마 스키마 보내기
 
 ```zsh
-npx prisma db push
+npx prisma db push # 프리즈마 스키마를 변할 경우 항상 시켜줘야 동기화 됩니다.
 ```
 
 ```prisma
