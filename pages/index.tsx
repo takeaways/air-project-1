@@ -9,17 +9,21 @@ import Layout from "components/layout";
 
 import useUser from "libs/client/useUser";
 
-import products from "./api/products";
-
+interface ProductWithFavCount extends Product {
+  _count: {
+    favs: number;
+  };
+}
 interface ProductsResponse {
   ok: boolean;
-  products: Product[];
+  products: ProductWithFavCount[];
 }
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
 
   const { data } = useSWR<ProductsResponse>("/api/products");
+
   console.log(data);
 
   return (
@@ -28,14 +32,14 @@ const Home: NextPage = () => {
         <title>Home</title>
       </Head>
       <div className="flex flex-col space-y-5 divide-y">
-        {data?.products.map((product, i) => (
+        {data?.products.map((product) => (
           <Item
             id={product.id}
             key={product.id}
             title={product.name}
             price={product.price}
-            comments={1}
-            hearts={1}
+            comments={0}
+            hearts={product._count.favs}
           />
         ))}
         <FloatingButton href="/products/upload">
