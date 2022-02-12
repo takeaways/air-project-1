@@ -39,4 +39,10 @@ async function handler(
   });
 }
 
-export default withApiSession(withHandler("POST", handler));
+export default withApiSession(
+  withHandler({
+    methods: ["POST", "GET", "DELETE"],
+    handler,
+    isPrivate: false,
+  }),
+);
