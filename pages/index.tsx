@@ -9,14 +9,14 @@ import Layout from "components/layout";
 
 import useUser from "libs/client/useUser";
 
-interface ProductWithFavCount extends Product {
+export interface ProductWithCount extends Product {
   _count: {
     favs: number;
   };
 }
 interface ProductsResponse {
   ok: boolean;
-  products: ProductWithFavCount[];
+  products: ProductWithCount[];
 }
 
 const Home: NextPage = () => {

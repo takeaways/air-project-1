@@ -1,6 +1,8 @@
 import type { AppProps } from "next/app";
 import { SWRConfig, SWRConfiguration } from "swr";
 
+import useUser from "libs/client/useUser";
+
 import "../styles/globals.css";
 
 const fetcher = (url: string) => {
